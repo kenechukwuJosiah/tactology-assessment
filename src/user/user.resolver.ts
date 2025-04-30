@@ -10,6 +10,10 @@ export class UserResolver {
   async createUser(
     @Args('createUserInput') createUserInput: CreateUserInput,
   ): Promise<UserOutput> {
+    if (!createUserInput.username || createUserInput.username.trim() === '') {
+      throw new Error('Username is required and cannot be empty.');
+    }
+
     const newUser = await this.userService.createUser(createUserInput);
 
     return {
