@@ -10,6 +10,10 @@ export class CreateUserInput {
   @Field()
   @IsString()
   password: string;
+
+  @Field()
+  @IsString()
+  fullName: string;
 }
 
 @InputType()
