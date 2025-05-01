@@ -1,4 +1,4 @@
-import { Department } from '../../department/entities';
+import { Department, SubDepartment } from '../../department/entities';
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 
 type StatusType = 'active' | 'inactive' | 'suspended';
@@ -27,6 +27,11 @@ export class User {
     cascade: true,
   })
   departments: Department[];
+
+  @OneToMany(() => Department, (department) => department.createdBy, {
+    cascade: true,
+  })
+  subDepartments: SubDepartment[];
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   createdAt: Date;

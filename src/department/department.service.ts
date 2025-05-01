@@ -14,29 +14,45 @@ export class DepartmentService {
   ) {}
 
   async create(input: CreateDepartmentInput, userId: string) {
+    const existingDepartment = await this.deptRepo.findOne({
+      where: {
+        name: input.name,
+        createdBy: { id: userId },
+      },
+    });
+
+    if (existingDepartment) {
+      throw new Error('Department with this name already exists.');
+    }
+
     const department = this.deptRepo.create({
       name: input.name,
-      createdBy: userId,
+      createdBy: { id: userId },
     });
 
     const savedDepartment = await this.deptRepo.save(department);
 
-    if (input.subDepartments && input.subDepartments.length > 0) {
-      const subDepartments = input.subDepartments.map((subDept) => ({
-        name: subDept.name,
-        department: savedDepartment,
-        createdBy: userId,
-      }));
+    if (input.subDepartments?.length) {
+      const subDepartments = input.subDepartments.map((sub) =>
+        this.subDeptRepo.create({
+          name: sub.name,
+          department: savedDepartment,
+          createdBy: { id: userId },
+        }),
+      );
 
-      await this.subDeptRepo.insert(subDepartments);
+      await this.subDeptRepo.save(subDepartments);
     }
 
-    return savedDepartment;
+    return this.deptRepo.findOne({
+      where: { id: savedDepartment.id },
+      relations: ['subDepartments'],
+    });
   }
 
   findAll(userId: string) {
     return this.deptRepo.find({
-      where: { createdBy: userId },
+      where: { createdBy: { id: userId } },
       relations: ['subDepartments'],
     });
   }
