@@ -1,0 +1,278 @@
+// create user
+mutation {
+  createUser(createUserInput: {username: "kenny", password:"pass12", fullName: "Kenechukwu Josiah Onwe"}) {
+    id
+    username
+    fullName
+  }
+}
+
+
+{
+  "data": {
+    "createUser": {
+      "id": "72f027c0-4cb7-40cd-b68d-453977f8d9f2",
+      "username": "kenny",
+      "fullName": "Kenechukwu Josiah Onwe"
+    }
+  }
+}
+
+// login
+mutation {
+  login(username: "kenny", password:"pass12")
+}
+
+
+{
+  "data": {
+    "login": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Imtlbm55IiwiaWQiOiI3MmYwMjdjMC00Y2I3LTQwY2QtYjY4ZC00NTM5NzdmOGQ5ZjIiLCJpYXQiOjE3NDYwNjA4MzcsImV4cCI6MTc0NjE0NzIzN30.RfCAIpmEHJrnXF2Fg6COXw3kpH9NG23ePNhMTio-Ud0"
+  }
+}
+
+
+// Create department with subDepartments
+mutation {
+ 	createDepartment(input: {name:"Cooking", subDepartments:[{name:"Food stuff"}, {name:"Waiters"}]}){
+    id
+    name
+    subDepartments {
+      id
+      name
+    }
+  }
+}
+
+{
+  "Authorization":"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Imtlbm55IiwiaWQiOiIzNzA0ZjFlNi01MWUxLTQ3YTctYjA2Ny0yM2IzZjVkNWIxMzIiLCJpYXQiOjE3NDYwOTEwMjMsImV4cCI6MTc0NjE3NzQyM30.Gz4xBKW1NSE5hOJq_vcXKJxGouUGio-VZeE_77mnslo"
+}
+
+
+{
+  "data": {
+    "createDepartment": {
+      "id": "db787433-2fbb-48af-bdc9-30573b0b47e3",
+      "name": "Cooking",
+      "subDepartments": [
+        {
+          "id": "d4e65367-f8ed-4e91-85a8-607de652bc5c",
+          "name": "Food stuff"
+        },
+        {
+          "id": "47471c72-fe76-4b91-9cee-c5e89d08cc54",
+          "name": "Waiters"
+        }
+      ]
+    }
+  }
+}
+
+// Create department without subDepartments
+Empty subDepartments
+mutation {
+ 	createDepartment(input: {name:"Empty", subDepartments:null}){
+    id
+    name
+    subDepartments {
+      id
+      name
+    }
+  }
+}
+
+{
+  "data": {
+    "createDepartment": {
+      "id": "af3cceca-c6da-407e-beed-2c7a3b45798b",
+      "name": "Empty",
+      "subDepartments": []
+    }
+  }
+}
+
+
+// list department
+query {
+  getDepartments{
+    id
+    name
+    subDepartments {
+      id
+      name
+    }
+  }
+}
+
+{
+  "data": {
+    "getDepartments": [
+      {
+        "id": "165c0f0c-e16d-4ad4-b958-3dc02135d718",
+        "name": "Test Department",
+        "subDepartments": [
+          {
+            "id": "66618d1f-2e5c-47e4-a06a-50939b1ab869",
+            "name": "Test Sub Department"
+          },
+          {
+            "id": "94ccffff-37c2-4e80-bff9-1bedac0ead27",
+            "name": "Test 2 Sub Department"
+          }
+        ]
+      },
+      {
+        "id": "db787433-2fbb-48af-bdc9-30573b0b47e3",
+        "name": "Cooking",
+        "subDepartments": [
+          {
+            "id": "d4e65367-f8ed-4e91-85a8-607de652bc5c",
+            "name": "Food stuff"
+          },
+          {
+            "id": "47471c72-fe76-4b91-9cee-c5e89d08cc54",
+            "name": "Waiters"
+          }
+        ]
+      },
+      {
+        "id": "af3cceca-c6da-407e-beed-2c7a3b45798b",
+        "name": "Empty",
+        "subDepartments": []
+      }
+    ]
+  }
+}
+
+
+// update department
+mutation {
+  updateDepartment(id:"af3cceca-c6da-407e-beed-2c7a3b45798b", name:"Finance") {
+    id
+    name
+    subDepartments {
+      id
+      name
+    }
+  }
+}
+
+
+{
+  "data": {
+    "updateDepartment": {
+      "id": "af3cceca-c6da-407e-beed-2c7a3b45798b",
+      "name": "Finance",
+      "subDepartments": null
+    }
+  }
+}
+
+// delete department
+mutation {
+  deleteDepartment(id:"af3cceca-c6da-407e-beed-2c7a3b45798b")
+}
+
+{
+  "data": {
+    "deleteDepartment": true
+  }
+}
+
+// create subDepartments
+
+mutation {
+  createSubDepartment(createSubDepartmentInput:{departmentId:"db787433-2fbb-48af-bdc9-30573b0b47e3", name:"Test"}){
+    id
+    name
+  }
+}
+
+{
+  "data": {
+    "createSubDepartment": {
+      "id": "2b8b7dac-98e3-4ebe-ab52-f1a37c291889",
+      "name": "Test"
+    }
+  }
+}
+
+// list subDepartments
+
+query {
+  listSubDepartment{
+    id
+    name
+  }
+}
+
+{
+  "data": {
+    "listSubDepartment": [
+      {
+        "id": "d4e65367-f8ed-4e91-85a8-607de652bc5c",
+        "name": "Food stuff"
+      },
+      {
+        "id": "47471c72-fe76-4b91-9cee-c5e89d08cc54",
+        "name": "Waiters"
+      },
+      {
+        "id": "2b8b7dac-98e3-4ebe-ab52-f1a37c291889",
+        "name": "Test"
+      }
+    ]
+  }
+}
+
+
+// get subDepartments
+
+query {
+  findSubDepartment(id:"2b8b7dac-98e3-4ebe-ab52-f1a37c291889"){
+    id
+    name
+  }
+}
+
+
+{
+  "data": {
+    "findSubDepartment": {
+      "id": "2b8b7dac-98e3-4ebe-ab52-f1a37c291889",
+      "name": "Test"
+    }
+  }
+}
+
+
+// udate subDepartments
+
+mutation {
+  updateSubDepartment(updateSubDepartmentInput: {departmentId:"db787433-2fbb-48af-bdc9-30573b0b47e3", name:"Testy", id:"2b8b7dac-98e3-4ebe-ab52-f1a37c291889"}){
+    id
+    name
+  }
+}
+
+{
+  "data": {
+    "updateSubDepartment": {
+      "id": "2b8b7dac-98e3-4ebe-ab52-f1a37c291889",
+      "name": "Testy"
+    }
+  }
+}
+
+
+// delete subDepartments
+
+mutation {
+  deleteSubDepartment(id:"2b8b7dac-98e3-4ebe-ab52-f1a37c291889")
+}
+
+
+{
+  "data": {
+    "deleteSubDepartment": true
+  }
+}

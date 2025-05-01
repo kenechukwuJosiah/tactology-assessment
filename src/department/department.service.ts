@@ -1,8 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Department, SubDepartment } from './entities';
+import { Department } from './entities';
 import { CreateDepartmentInput } from './dto';
+import { SubDepartment } from '../sub-department/entities';
 
 @Injectable()
 export class DepartmentService {
