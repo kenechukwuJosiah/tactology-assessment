@@ -8,6 +8,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
 import { DepartmentModule } from './department/department.module';
+import { SubDepartmentModule } from './sub-department/sub-department.module';
 
 @Module({
   imports: [
@@ -36,6 +37,7 @@ import { DepartmentModule } from './department/department.module';
     UserModule,
     AuthModule,
     DepartmentModule,
+    SubDepartmentModule,
   ],
   providers: [AppResolver, AppService],
 })

@@ -6,8 +6,9 @@ import {
   ManyToOne,
   JoinColumn,
 } from 'typeorm';
-import { SubDepartment } from './sub-department.entity';
+
 import { User } from '../../user/entities/user.entity';
+import { SubDepartment } from '../../sub-department/entities';
 
 @Entity()
 export class Department {

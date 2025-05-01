@@ -1,6 +1,7 @@
 import { InputType, Field, ObjectType } from '@nestjs/graphql';
 import { IsOptional, Length, ValidateNested } from 'class-validator';
 import { Type } from 'class-transformer';
+import { SubDepartmentOutput } from '../../sub-department/dto';
 
 @InputType()
 export class SubDepartmentInput {
@@ -22,14 +23,14 @@ export class CreateDepartmentInput {
   subDepartments?: SubDepartmentInput[];
 }
 
-@ObjectType()
-export class SubDepartmentOutput {
-  @Field()
-  id: string;
+// @ObjectType()
+// export class SubDepartmentOutput {
+//   @Field()
+//   id: string;
 
-  @Field()
-  name: string;
-}
+//   @Field()
+//   name: string;
+// }
 
 @ObjectType()
 export class DepartmentOutput {

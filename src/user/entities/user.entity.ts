@@ -1,4 +1,5 @@
-import { Department, SubDepartment } from '../../department/entities';
+import { SubDepartment } from '../../sub-department/entities';
+import { Department } from '../../department/entities';
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 
 type StatusType = 'active' | 'inactive' | 'suspended';
