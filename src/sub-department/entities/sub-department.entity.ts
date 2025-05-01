@@ -34,4 +34,5 @@ export class SubDepartment {
     onUpdate: 'CURRENT_TIMESTAMP',
   })
   updatedAt: Date;
+  subDepartment: { id: string };
 }

@@ -20,6 +20,10 @@ export class SubDepartmentService {
   ): Promise<SubDepartment> {
     const { departmentId, name } = createSubDepartmentInput;
 
+    if (!departmentId) {
+      throw new Error('Department ID must not be empty');
+    }
+
     const department = await this.deptRepo.findOne({
       where: { id: departmentId },
     });
@@ -61,11 +65,30 @@ export class SubDepartmentService {
     id: string,
     updateSubDepartmentInput: UpdateSubDepartmentInput,
   ): Promise<SubDepartment> {
-    await this.subDeptRepo.update(id, updateSubDepartmentInput);
-    return await this.subDeptRepo.findOne({ where: { id } });
+    const { name, departmentId } = updateSubDepartmentInput;
+
+    const subDepartment = await this.subDeptRepo.findOne({ where: { id } });
+
+    if (!subDepartment) {
+      throw new NotFoundException(`Sub-department with ID ${id} not found`);
+    }
+
+    subDepartment.name = name;
+    subDepartment.department = await this.deptRepo.findOne({
+      where: { id: departmentId },
+    });
+
+    if (!subDepartment.department) {
+      throw new NotFoundException(
+        `Department with ID ${departmentId} not found`,
+      );
+    }
+
+    return await this.subDeptRepo.save(subDepartment);
   }
 
-  async remove(id: number): Promise<void> {
+  async remove(id: number): Promise<boolean> {
     await this.subDeptRepo.delete(id);
+    return true;
   }
 }
