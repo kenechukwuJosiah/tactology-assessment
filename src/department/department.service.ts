@@ -13,16 +13,32 @@ export class DepartmentService {
     private subDeptRepo: Repository<SubDepartment>,
   ) {}
 
-  async create(input: CreateDepartmentInput) {
+  async create(input: CreateDepartmentInput, userId: string) {
     const department = this.deptRepo.create({
       name: input.name,
-      subDepartments: input.subDepartments,
+      createdBy: userId,
     });
-    return this.deptRepo.save(department);
+
+    const savedDepartment = await this.deptRepo.save(department);
+
+    if (input.subDepartments && input.subDepartments.length > 0) {
+      const subDepartments = input.subDepartments.map((subDept) => ({
+        name: subDept.name,
+        department: savedDepartment,
+        createdBy: userId,
+      }));
+
+      await this.subDeptRepo.insert(subDepartments);
+    }
+
+    return savedDepartment;
   }
 
-  findAll() {
-    return this.deptRepo.find({ relations: ['subDepartments'] });
+  findAll(userId: string) {
+    return this.deptRepo.find({
+      where: { createdBy: userId },
+      relations: ['subDepartments'],
+    });
   }
 
   async update(id: string, name: string) {
