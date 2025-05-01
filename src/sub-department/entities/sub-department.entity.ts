@@ -13,7 +13,7 @@ export class SubDepartment {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column()
+  @Column({ type: 'varchar' })
   name: string;
 
   @ManyToOne(() => Department, (department) => department.subDepartments, {

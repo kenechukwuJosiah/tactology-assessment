@@ -9,19 +9,19 @@ export class User {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column({ unique: true })
+  @Column({ unique: true, type: 'varchar' })
   username: string;
 
-  @Column()
+  @Column({ type: 'varchar' })
   fullName: string;
 
-  @Column()
+  @Column({ type: 'varchar' })
   password: string;
 
   @Column({ type: 'timestamp', nullable: true })
   lastLogin: Date;
 
-  @Column({ default: false })
+  @Column({ default: false, type: 'boolean' })
   online: boolean;
 
   @OneToMany(() => Department, (department) => department.createdBy, {
@@ -44,12 +44,9 @@ export class User {
   })
   updatedAt: Date;
 
-  @Column({ default: false })
-  deleted: boolean;
-
-  @Column({ default: 'active' })
+  @Column({ default: 'active', type: 'text' })
   status: StatusType;
 
-  @Column({ nullable: true })
+  @Column({ nullable: true, type: 'varchar' })
   createdBy: string;
 }
