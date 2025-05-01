@@ -1,23 +1,31 @@
-import { Resolver, Mutation, Args, Query } from '@nestjs/graphql';
+import { Resolver, Mutation, Args, Query, Context } from '@nestjs/graphql';
 import { DepartmentService } from './department.service';
-import { Department } from './entities';
-import { CreateDepartmentInput } from './dto';
+// import { Department } from './entities';
+import { CreateDepartmentInput, DepartmentOutput } from './dto';
+import { UseGuards } from '@nestjs/common';
+import { AuthGuard } from '../guards';
 
-@Resolver(() => Department)
+@UseGuards(AuthGuard)
+@Resolver(() => DepartmentOutput)
 export class DepartmentResolver {
   constructor(private departmentService: DepartmentService) {}
 
-  @Mutation(() => Department)
-  createDepartment(@Args('input') input: CreateDepartmentInput) {
-    return this.departmentService.create(input);
+  @Mutation(() => DepartmentOutput)
+  createDepartment(
+    @Args('input') input: CreateDepartmentInput,
+    @Context('req') req,
+  ) {
+    const userId = req.user.id;
+    return this.departmentService.create(input, userId);
   }
 
-  @Query(() => [Department])
-  getDepartments() {
-    return this.departmentService.findAll();
+  @Query(() => [DepartmentOutput])
+  getDepartments(@Context('req') req) {
+    const userId = req.user.id;
+    return this.departmentService.findAll(userId);
   }
 
-  @Mutation(() => Department)
+  @Mutation(() => DepartmentOutput)
   updateDepartment(@Args('id') id: string, @Args('name') name: string) {
     return this.departmentService.update(id, name);
   }
