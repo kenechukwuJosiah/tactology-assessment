@@ -15,7 +15,7 @@ export class Department {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column()
+  @Column({ type: 'varchar' })
   name: string;
 
   @OneToMany(() => SubDepartment, (sub) => sub.department, { cascade: true })
