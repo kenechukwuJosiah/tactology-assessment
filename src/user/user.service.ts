@@ -21,7 +21,7 @@ export class UserService {
     });
 
     if (existingUser) {
-      throw new Error('User with this username already exists');
+      throw new Error('User with this username already exists.');
     }
     const newUser = this.userRepository.create(data);
     return await this.userRepository.save(newUser);

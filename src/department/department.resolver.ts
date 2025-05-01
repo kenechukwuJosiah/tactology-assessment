@@ -27,6 +27,9 @@ export class DepartmentResolver {
 
   @Mutation(() => DepartmentOutput)
   updateDepartment(@Args('id') id: string, @Args('name') name: string) {
+    if (!id || !name) {
+      throw new Error('Both id and name are required.');
+    }
     return this.departmentService.update(id, name);
   }
 
