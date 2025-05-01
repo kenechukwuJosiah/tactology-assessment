@@ -16,6 +16,9 @@ const AppDataSource = new DataSource({
   entities: [User, Department, SubDepartment],
   synchronize: false,
   migrations: ['src/migrations/*.ts'],
+  ssl: {
+    rejectUnauthorized: false,
+  },
 });
 
 AppDataSource.initialize()

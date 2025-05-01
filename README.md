@@ -49,7 +49,7 @@ JWT_SECRET=********LK9289LI********&LKH/****lksjflsk972989289lskjsd****
 4. **Seed User**:
 
 ```bash
-pnpm seed:user
+pnpm db:seed
 ```
 
 5. **Start the development server**:
