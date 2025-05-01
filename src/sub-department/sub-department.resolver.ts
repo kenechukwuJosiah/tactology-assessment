@@ -1,17 +1,19 @@
-import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
+import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
 import { SubDepartmentService } from './sub-department.service';
-import { SubDepartment } from './entities/sub-department.entity';
-import { CreateSubDepartmentInput } from './dto/create-sub-department.input';
+import {
+  CreateSubDepartmentInput,
+  SubDepartmentOutput,
+} from './dto/create-sub-department.input';
 import { UpdateSubDepartmentInput } from './dto/update-sub-department.input';
 import { UseGuards } from '@nestjs/common';
 import { AuthGuard } from '../guards';
 
 @UseGuards(AuthGuard)
-@Resolver(() => SubDepartment)
+@Resolver(() => SubDepartmentOutput)
 export class SubDepartmentResolver {
   constructor(private readonly subDepartmentService: SubDepartmentService) {}
 
-  @Mutation(() => SubDepartment)
+  @Mutation(() => SubDepartmentOutput)
   createSubDepartment(
     @Args('createSubDepartmentInput')
     createSubDepartmentInput: CreateSubDepartmentInput,
@@ -19,17 +21,17 @@ export class SubDepartmentResolver {
     return this.subDepartmentService.create(createSubDepartmentInput);
   }
 
-  @Query(() => [SubDepartment], { name: 'subDepartment' })
-  findAll() {
+  @Query(() => [SubDepartmentOutput])
+  listSubDepartment() {
     return this.subDepartmentService.findAll();
   }
 
-  @Query(() => SubDepartment, { name: 'subDepartment' })
-  findOne(@Args('id', { type: () => Int }) id: string) {
+  @Query(() => SubDepartmentOutput)
+  findSubDepartment(@Args('id', { type: () => String }) id: string) {
     return this.subDepartmentService.findOne(id);
   }
 
-  @Mutation(() => SubDepartment)
+  @Mutation(() => SubDepartmentOutput)
   updateSubDepartment(
     @Args('updateSubDepartmentInput')
     updateSubDepartmentInput: UpdateSubDepartmentInput,
@@ -40,8 +42,8 @@ export class SubDepartmentResolver {
     );
   }
 
-  @Mutation(() => SubDepartment)
-  removeSubDepartment(@Args('id', { type: () => Int }) id: number) {
+  @Mutation(() => Boolean)
+  deleteSubDepartment(@Args('id', { type: () => String }) id: number) {
     return this.subDepartmentService.remove(id);
   }
 }

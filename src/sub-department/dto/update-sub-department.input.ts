@@ -9,5 +9,8 @@ export class UpdateSubDepartmentInput extends PartialType(
   id: string;
 
   @Field()
+  name: string;
+
+  @Field()
   departmentId?: string;
 }
