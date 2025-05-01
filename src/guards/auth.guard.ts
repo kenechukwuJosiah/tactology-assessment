@@ -7,12 +7,15 @@ import {
 } from '@nestjs/common';
 import { GqlExecutionContext } from '@nestjs/graphql';
 import { JwtService } from '@nestjs/jwt';
-
+import { UserService } from '../user/user.service';
 @Injectable()
 export class AuthGuard implements CanActivate {
-  constructor(private jwtService: JwtService) {}
+  constructor(
+    private jwtService: JwtService,
+    private userService: UserService,
+  ) {}
 
-  canActivate(context: ExecutionContext): boolean {
+  async canActivate(context: ExecutionContext): Promise<boolean> {
     const ctx = GqlExecutionContext.create(context);
     const req = ctx.getContext().req;
 
@@ -26,10 +29,18 @@ export class AuthGuard implements CanActivate {
     try {
       const decoded = this.jwtService.verify(token);
       req.user = decoded;
+
+      const user = await this.userService.findOne(req.user.id);
+
+      if (!user) {
+        throw new UnauthorizedException('Unauthorized');
+      }
+
       return true;
     } catch (err: any) {
-      console.error('Token verification error:', err);
-      throw new UnauthorizedException('Invalid or expired token');
+      throw new UnauthorizedException(
+        err.message ?? 'Invalid or expired token',
+      );
     }
   }
 }

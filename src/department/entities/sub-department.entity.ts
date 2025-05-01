@@ -21,9 +21,9 @@ export class SubDepartment {
   })
   department: Department;
 
-  @ManyToOne(() => User, { nullable: false })
+  @ManyToOne(() => User, (user) => user.subDepartments, { eager: true })
   @JoinColumn({ name: 'createdBy' })
-  createdBy: string;
+  createdBy: User;
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   createdAt: Date;

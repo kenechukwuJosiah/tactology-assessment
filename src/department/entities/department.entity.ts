@@ -20,9 +20,9 @@ export class Department {
   @OneToMany(() => SubDepartment, (sub) => sub.department, { cascade: true })
   subDepartments: SubDepartment[];
 
-  @ManyToOne(() => User, { nullable: false })
+  @ManyToOne(() => User, (user) => user.departments, { eager: true })
   @JoinColumn({ name: 'createdBy' })
-  createdBy: string;
+  createdBy: User;
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   createdAt: Date;
